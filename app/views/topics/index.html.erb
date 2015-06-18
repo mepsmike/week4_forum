@@ -1,0 +1,16 @@
+<%= link_to("發文", new_topic_path , :class => "btn btn-primary") %>
+
+<table class="table">
+
+<% @topics.each do |t| %>
+
+<tr>
+
+	<td><%= link_to "#{t.title}", topic_path(t) %></td>
+
+</tr>
+
+<% end %>
+
+</table>
+
