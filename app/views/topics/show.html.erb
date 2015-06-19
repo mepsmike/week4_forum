@@ -1,6 +1,8 @@
 
-
-	<h1><%= @topic.title %></h1>
+<% @topic.categories.each do |x| %>
+<span>[<%= x.name %>]</span>	
+<% end %>
+<h1><%= @topic.title %></h1>
 	<p><%= @topic.content %></p>
 
 	<hr>

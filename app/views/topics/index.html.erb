@@ -2,6 +2,12 @@
 
 <table class="table">
 
+<% @categories.each do |c| %>
+
+<%= c.name %>
+
+<% end %>
+
 <% @topics.each do |t| %>
 
 <tr>

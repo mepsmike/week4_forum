@@ -4,6 +4,7 @@ class TopicsController < ApplicationController
 
 	def index
 		@topics=Topic.all
+		@categories=Category.all
 	end
 
 	def new
@@ -23,7 +24,7 @@ class TopicsController < ApplicationController
 	end
 
 	def get_params
-		params.require(:topic).permit(:title, :content)
+		params.require(:topic).permit(:title, :content, :category_ids => [])
 	end
 
 	def set_topic
