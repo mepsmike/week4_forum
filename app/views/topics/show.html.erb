@@ -3,10 +3,21 @@
 	<h1><%= @topic.title %></h1>
 	<p><%= @topic.content %></p>
 
-	<%#= form_for @comment do |c|%>
-	
-	<%#= c.label "comment" :comment %>
-	<%#= c.text_area :comment %>
+	<hr>
+	<% @comments.each do |c|%>
 
+	<p><%= c.content %></p>
+	
+
+
+	<% end %>
+
+	<hr>
+
+	<%= form_for @comment ,:url => topic_comments_path(@topic) do |c|%>
+	
+	<%= c.label :content ,"留言" %></br>
+	<%= c.text_area :content %></br>
+  <%= c.submit "發表" %>
  <% end %>
-<%= link_to 'back', topics_path %>
+<%= link_to '回列表', topics_path %>
