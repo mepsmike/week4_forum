@@ -8,11 +8,12 @@ class TopicsController < ApplicationController
 		@categories=Category.all
 		
 		if params[:cid] 
-			@topics=Topic.select("topics.id, topics.title, count(comments.id) as num,max(comments.updated_at) as latesttime").joins("LEFT JOIN comments ON comments.topic_id = topics.id" ).group("topics.id").joins(:categories).where(:categories => { :id => params[:cid] } )
+			@topics=Topic.select("topics.id, topics.title, topics.user_id, count(comments.id) as num,max(comments.updated_at) as latesttime").joins("LEFT JOIN comments ON comments.topic_id = topics.id" ).group("topics.id").joins(:categories).where(:categories => { :id => params[:cid] } )
+			
 		else
 			#@topics=Topic.all
 
-			@topics=Topic.select("topics.id, topics.title, count(comments.id) as num,max(comments.updated_at) as latesttime").joins("LEFT JOIN comments ON comments.topic_id = topics.id" ).group("topics.id")
+			@topics=Topic.select("topics.id, topics.title, topics.user_id, count(comments.id) as num,max(comments.updated_at) as latesttime").joins("LEFT JOIN comments ON comments.topic_id = topics.id" ).group("topics.id")
 			
 		end
 	end
@@ -29,6 +30,7 @@ class TopicsController < ApplicationController
 
 	def create
 		@topic=Topic.new(get_params)
+		@topic.user = current_user
 		@topic.save
 		redirect_to topics_path
 	end

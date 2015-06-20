@@ -1,8 +1,9 @@
 </br>
 <% if current_user %>
+					hi! <%= current_user.email %>
           <%= link_to('登出', destroy_user_session_path, :method => :delete) %> |
           <%= link_to('修改密碼', edit_registration_path(:user)) %> |
-          <%= link_to('管理我的發文') %>
+          <%= link_to('查看我的發文') %>
       <% else %>
           <%= link_to('註冊', new_registration_path(:user)) %> |
           <%= link_to('登入', new_session_path(:user)) %> 
@@ -12,6 +13,9 @@
 
 
 <div>
+
+<%= link_to "Show All", topics_path %> |
+
 <% @categories.each do |c| %>
 
 <%= link_to "#{c.name} ", topics_path(:cid => c) %> |
@@ -41,7 +45,7 @@
 <tr>
 
 	<td><%= link_to "#{t.title}", topic_path(t) %></td>
-	<td></td>
+	<td><%= t.user.try(:short_name)%></td>
 	<td><%= t.num %></td>
 	<td><%= t.latesttime %></td>
 
