@@ -1,10 +1,20 @@
 class TopicsController < ApplicationController
 
 	before_action :set_topic, :only =>[:show]
+	before_action :authenticate_user!, :except => [:index]
 
 	def index
-		@topics=Topic.all
+		
 		@categories=Category.all
+		
+		if params[:cid] 
+			@topics=Topic.select("topics.id, topics.title, count(comments.id) as num,max(comments.updated_at) as latesttime").joins("LEFT JOIN comments ON comments.topic_id = topics.id" ).group("topics.id").joins(:categories).where(:categories => { :id => params[:cid] } )
+		else
+			#@topics=Topic.all
+
+			@topics=Topic.select("topics.id, topics.title, count(comments.id) as num,max(comments.updated_at) as latesttime").joins("LEFT JOIN comments ON comments.topic_id = topics.id" ).group("topics.id")
+			
+		end
 	end
 
 	def new

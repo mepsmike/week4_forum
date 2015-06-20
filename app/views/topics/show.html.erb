@@ -1,4 +1,6 @@
 
+
+<%= link_to '返回列表', topics_path%></br>
 <% @topic.categories.each do |x| %>
 <span>[<%= x.name %>]</span>	
 <% end %>
@@ -6,6 +8,10 @@
 	<p><%= @topic.content %></p>
 
 	<hr>
+
+	
+
+
 	<% @comments.each do |c|%>
 
 	<p><%= c.content %></p>
@@ -14,12 +20,13 @@
 
 	<% end %>
 
+	
+
 	<hr>
 
 	<%= form_for @comment ,:url => topic_comments_path(@topic) do |c|%>
 	
 	<%= c.label :content ,"留言" %></br>
 	<%= c.text_area :content %></br>
-  <%= c.submit "發表" %>
+  <%= c.submit "發表" , :class => "btn btn_primary"%>
  <% end %>
-<%= link_to '回列表', topics_path %>
