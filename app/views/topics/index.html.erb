@@ -1,4 +1,4 @@
-</br>
+
 <% if current_user %>
 					hi! <%= current_user.email %>
           <%= link_to('登出', destroy_user_session_path, :method => :delete) %> |
@@ -9,12 +9,15 @@
           <%= link_to('登入', new_session_path(:user)) %> 
       <% end %>
       </br>
-<%= link_to("發文", new_topic_path , :class => "btn btn-primary") %>
 
+<div>
+</br>
+<%= link_to("發文", new_topic_path , :class => "btn btn-warning btn-sm") %>
+</div>
 
 <div>
 
-<%= link_to "Show All", topics_path %> |
+<%= link_to "所有主題", topics_path %> |
 
 <% @categories.each do |c| %>
 
@@ -30,7 +33,7 @@
 
 <tr>
 
-<td>主題</td>
+<td>排序：<%= link_to "最後回覆", topics_path(:order => "latesttime") %> | <%= link_to "最多人回覆", topics_path(:order => "num") %></td>
 
 <td>作者</td>
 
@@ -54,5 +57,6 @@
 <% end %>
 
 </table>
+<%= paginate @topics %>
 </div>
 

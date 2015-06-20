@@ -16,6 +16,18 @@ class TopicsController < ApplicationController
 			@topics=Topic.select("topics.id, topics.title, topics.user_id, count(comments.id) as num,max(comments.updated_at) as latesttime").joins("LEFT JOIN comments ON comments.topic_id = topics.id" ).group("topics.id")
 			
 		end
+
+		sort_by = (params[:order] == 'num') ? 'num DESC' : 'latesttime DESC'
+
+
+		if params[:order]
+
+			@topics=@topics.order(sort_by)
+
+		end
+
+		@topics=@topics.page(params[:page]).per(10)
+
 	end
 
 	def new
@@ -33,6 +45,18 @@ class TopicsController < ApplicationController
 		@topic.user = current_user
 		@topic.save
 		redirect_to topics_path
+	end
+
+	def about
+
+		@countuser = User.count
+
+		@counttopic = Topic.count
+
+		@countcomment= Comment.count
+
+		
+
 	end
 
 	def get_params

@@ -1,9 +1,17 @@
 Rails.application.routes.draw do
   devise_for :users
 
+  root :to => "topics#index"
+
   resources :topics do
 
     resources :comments, :controller => 'topic_comments'
+
+    collection do
+
+      get :about
+
+    end
 
   end
   # The priority is based upon order of creation: first created -> highest priority.
