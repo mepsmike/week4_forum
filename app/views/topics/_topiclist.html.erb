@@ -1,0 +1,32 @@
+
+<div >
+<table class="table table-bordered text-center table-condensed">
+
+<tr>
+
+<td>排序：<%= link_to "最後回覆", topics_path(:order => "latesttime") %> | <%= link_to "最多人回覆", topics_path(:order => "num") %></td>
+
+<td>作者</td>
+
+<td>回覆</td>
+
+<td>最後回覆</td>
+
+</tr>
+
+<% @topics.each do |t| %>
+
+<tr>
+
+	<td><%= link_to "#{t.title}", topic_path(t) %></td>
+	<td><%= link_to "#{t.user.try(:short_name)}",user_info_topics_path(:uid => t.user)%></td>
+	<td><%= t.num %></td>
+	<td><%= t.latesttime %></td>
+
+</tr>
+
+<% end %>
+
+</table>
+<%= paginate @topics %>
+</div>

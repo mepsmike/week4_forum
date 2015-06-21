@@ -1,6 +1,6 @@
 
 
-<%= link_to '返回列表', topics_path%></br>
+<%= link_to '返回列表', :back %></br>
 <% @topic.categories.each do |x| %>
 <span>[<%= x.name %>]</span>	
 <% end %>

@@ -1,19 +1,20 @@
 class TopicsController < ApplicationController
 
 	before_action :set_topic, :only =>[:show]
+	before_action :topic_list, :only =>[:index,:user_info]
 	before_action :authenticate_user!, :except => [:index]
 
 	def index
 		
 		@categories=Category.all
+
+		
 		
 		if params[:cid] 
-			@topics=Topic.select("topics.id, topics.title, topics.user_id, count(comments.id) as num,max(comments.updated_at) as latesttime").joins("LEFT JOIN comments ON comments.topic_id = topics.id" ).group("topics.id").joins(:categories).where(:categories => { :id => params[:cid] } )
+			@topics=@topics.joins(:categories).where(:categories => { :id => params[:cid] } )
 			
 		else
-			#@topics=Topic.all
-
-			@topics=Topic.select("topics.id, topics.title, topics.user_id, count(comments.id) as num,max(comments.updated_at) as latesttime").joins("LEFT JOIN comments ON comments.topic_id = topics.id" ).group("topics.id")
+			@topics
 			
 		end
 
@@ -55,7 +56,15 @@ class TopicsController < ApplicationController
 
 		@countcomment= Comment.count
 
-		
+	end
+
+	def user_info
+		if params[:uid]
+			@intro=User.all.where(:id => params[:uid])
+			@topics=@topics.where(:user_id => params[:uid]).page(params[:page]).per(10)
+		else
+			@topics=@topics.where(:user_id => current_user).page(params[:page]).per(10)
+		end
 
 	end
 
@@ -68,5 +77,13 @@ class TopicsController < ApplicationController
 		@topic=Topic.find(params[:id])
 
 	end
+
+	def topic_list
+
+		@topics=Topic.select("topics.id, topics.title, topics.user_id, count(comments.id) as num,max(comments.updated_at) as latesttime").joins("LEFT JOIN comments ON comments.topic_id = topics.id" ).group("topics.id")
+
+	end
+
+	
 
 end
