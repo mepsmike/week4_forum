@@ -1,6 +1,6 @@
 class TopicsController < ApplicationController
 
-	before_action :set_topic, :only =>[:show]
+	before_action :set_topic, :only =>[:show,:destroy,:edit,:update]
 	before_action :topic_list, :only =>[:index,:user_info]
 	before_action :authenticate_user!, :except => [:index]
 
@@ -18,17 +18,7 @@ class TopicsController < ApplicationController
 			
 		end
 
-		sort_by = (params[:order] == 'num') ? 'num DESC' : 'latesttime DESC'
-
-
-		if params[:order]
-
-			@topics=@topics.order(sort_by)
-
-		end
-
-		@topics=@topics.page(params[:page]).per(10)
-
+		sort_and_page
 	end
 
 	def new
@@ -48,6 +38,30 @@ class TopicsController < ApplicationController
 		redirect_to topics_path
 	end
 
+	def edit
+
+		render :action => :new
+		
+	end
+
+
+	def update
+
+		@topic.update(get_params)
+
+		redirect_to topics_path
+
+
+
+	end
+
+	def destroy
+
+		Topic.destroy(@topic)
+		redirect_to topics_path
+
+  end
+
 	def about
 
 		@countuser = User.count
@@ -65,6 +79,8 @@ class TopicsController < ApplicationController
 		else
 			@topics=@topics.where(:user_id => current_user).page(params[:page]).per(10)
 		end
+
+		sort_and_page
 
 	end
 
@@ -84,6 +100,19 @@ class TopicsController < ApplicationController
 
 	end
 
-	
+	def sort_and_page
+
+		sort_by = (params[:order] == 'num') ? 'num DESC' : 'latesttime DESC'
+
+
+		if params[:order]
+
+			@topics=@topics.order(sort_by)
+
+		end
+
+		@topics=@topics.order("topics.id desc").page(params[:page]).per(10)
+
+	end
 
 end

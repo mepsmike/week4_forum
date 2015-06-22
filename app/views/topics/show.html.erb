@@ -1,9 +1,16 @@
 
 
-<%= link_to '返回列表', :back %></br>
+<%= link_to '返回列表', :back %>
+<% if @topic.user_id == current_user.id %>
+<%= link_to '編輯', edit_topic_path %>
+<%= link_to '刪除', topic_path(@topic.id), :method => :delete %>
+<% end %>
+
+</br>
 <% @topic.categories.each do |x| %>
 <span>[<%= x.name %>]</span>	
 <% end %>
+
 <h1><%= @topic.title %></h1>
 	<p><%= @topic.content %></p>
 
