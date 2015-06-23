@@ -1,1 +1,10 @@
+
+<% if params[:uid].to_i == current_user.id.to_i %>
+
+	<%= link_to "發佈的文章", :uid => current_user,:status => :t %>
+	<%= link_to "草稿夾", :uid => current_user,:status => :f %>
+
+
+<% end %>
+
 <%= render :partial => 'topiclist' %>

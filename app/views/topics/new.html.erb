@@ -11,7 +11,10 @@
 <div class="form-group">
 分類：<%= f.collection_check_boxes(:category_ids, Category.all, :id, :name) %>
 </div>
-<%= f.submit "發布" ,:class =>"btn btn-success"%>
+<div class="form-group">
+狀態：<%= f.select :status, [["發佈","t"],["草稿","f"]]%>
+</div>
+<%= f.submit "送出" ,:class =>"btn btn-success"%>
 
 
 <% end %>

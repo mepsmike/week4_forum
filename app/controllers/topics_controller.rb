@@ -14,7 +14,7 @@ class TopicsController < ApplicationController
 			@topics=@topics.joins(:categories).where(:categories => { :id => params[:cid] } )
 			
 		else
-			@topics
+			@topics=@topics.where(:status => :t)
 			
 		end
 
@@ -73,11 +73,20 @@ class TopicsController < ApplicationController
 	end
 
 	def user_info
-		if params[:uid]
-			@intro=User.all.where(:id => params[:uid])
+		if params[:uid].to_i == current_user.id.to_i
+			
+			if params[:status] == "f"
+				@topics=@topics.where(:user_id => params[:uid],:status => :f).page(params[:page]).per(10)
+			else
+				@topics=@topics.where(:user_id => params[:uid],:status => :t).page(params[:page]).per(10)
+
+			end
+
+		else 
+
 			@topics=@topics.where(:user_id => params[:uid]).page(params[:page]).per(10)
-		else
-			@topics=@topics.where(:user_id => current_user).page(params[:page]).per(10)
+
+
 		end
 
 		sort_and_page
@@ -85,7 +94,7 @@ class TopicsController < ApplicationController
 	end
 
 	def get_params
-		params.require(:topic).permit(:title, :content, :category_ids => [])
+		params.require(:topic).permit(:title, :content, :status,:category_ids => [])
 	end
 
 	def set_topic
@@ -100,7 +109,7 @@ class TopicsController < ApplicationController
 
 	end
 
-	def sort_and_page
+	def sort_and_page #排序和分頁
 
 		sort_by = (params[:order] == 'num') ? 'num DESC' : 'latesttime DESC'
 
