@@ -11,8 +11,11 @@ Rails.application.routes.draw do
 
       get :about
       get :user_info
-
+      post :collect
+      get :collect_list
     end
+
+    
 
   end
 

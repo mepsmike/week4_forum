@@ -1,5 +1,5 @@
 
-<div >
+
 <table class="table table-bordered text-center table-condensed">
 
 <tr>
@@ -20,8 +20,8 @@
 
 	<td><%= link_to "#{t.title}", topic_path(t) %></td>
 	<td><%= link_to "#{t.user.try(:short_name)}",user_info_topics_path(:uid => t.user)%></td>
-	<td><%= t.num %></td>
-	<td><%= t.latesttime %></td>
+	<td><%= t.try(:num) %></td>
+	<td><%= t.try(:latesttime) %></td>
 
 </tr>
 
@@ -29,4 +29,3 @@
 
 </table>
 <%= paginate @topics %>
-</div>

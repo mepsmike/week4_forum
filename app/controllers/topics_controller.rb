@@ -1,17 +1,15 @@
 class TopicsController < ApplicationController
 
 	before_action :set_topic, :only =>[:show,:destroy,:edit,:update]
-	before_action :topic_list, :only =>[:index,:user_info]
+	before_action :topic_list, :only =>[:index,:user_info,:collect_list]
 	before_action :authenticate_user!, :except => [:index]
 
 	def index
 		
 		@categories=Category.all
-
-		
 		
 		if params[:cid] 
-			@topics=@topics.joins(:categories).where(:categories => { :id => params[:cid] } )
+			@topics=@topics.joins(:categories).where(:categories => { :id => params[:cid] },:status => :t )
 			
 		else
 			@topics=@topics.where(:status => :t)
@@ -62,6 +60,22 @@ class TopicsController < ApplicationController
 
   end
 
+  def collect
+  	
+  		@favorite=Favorite.create(:user_id => current_user.id,:topic_id => params[:tid])
+  	
+  		redirect_to topics_path
+  	
+  end
+
+  def collect_list
+
+  	@user = User.find(params[:uid])
+  	@topics =@user.favorite_topics.page(params[:page]).per(10)
+  	
+
+  end
+
 	def about
 
 		@countuser = User.count
@@ -83,7 +97,7 @@ class TopicsController < ApplicationController
 			end
 
 		else 
-
+			@introduce = User.find(params[:uid])
 			@topics=@topics.where(:user_id => params[:uid]).page(params[:page]).per(10)
 
 
