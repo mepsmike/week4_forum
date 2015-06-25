@@ -25,6 +25,8 @@ class TopicsController < ApplicationController
 
 	def show
 		set_topic
+		@topic.view_counter += 1
+		@topic.save
 		@comment=Comment.new
 		@comments=@topic.comments
 	end
@@ -48,8 +50,6 @@ class TopicsController < ApplicationController
 		@topic.update(get_params)
 
 		redirect_to topics_path
-
-
 
 	end
 
@@ -119,7 +119,7 @@ class TopicsController < ApplicationController
 
 	def topic_list
 
-		@topics=Topic.select("topics.id, topics.title, topics.user_id, count(comments.id) as num,max(comments.updated_at) as latesttime").joins("LEFT JOIN comments ON comments.topic_id = topics.id" ).group("topics.id")
+		@topics=Topic.select("topics.id, topics.title,topics.view_counter, topics.user_id, count(comments.id) as num,max(comments.updated_at) as latesttime").joins("LEFT JOIN comments ON comments.topic_id = topics.id" ).group("topics.id")
 
 	end
 

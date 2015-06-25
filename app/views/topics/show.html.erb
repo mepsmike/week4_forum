@@ -8,7 +8,8 @@
 <%else%>
 <%= link_to '收藏文章', collect_topics_path(:tid=>@topic.id), :method => :post %>
 <% end %>
-
+</br>
+<div class="fb-like" data-href="https://localhost:3000/topics" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
 </br>
 <% @topic.categories.each do |x| %>
 <span>[<%= x.name %>]</span>	
@@ -38,5 +39,5 @@
 	
 	<%= c.label :content ,"留言" %></br>
 	<%= c.text_area :content %></br>
-  <%= c.submit "發表" , :class => "btn btn_success" %>
+  <%= c.submit "發表" , :class => "btn btn-success" %>
  <% end %>
