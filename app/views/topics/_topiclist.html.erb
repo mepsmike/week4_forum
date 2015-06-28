@@ -4,7 +4,7 @@
 
 <tr>
 
-<td>排序：<%= link_to "最後回覆", :order => "latesttime" %> | <%= link_to "最多人回覆", :order => "num" %></td>
+<td>排序：<%= link_to "最後回覆", :order => "latesttime" %> | <%= link_to "最多人回覆", :order => "num" %> | <%= link_to "瀏覽人數", :order => "view" %></td>
 
 <td>作者</td>
 
@@ -20,7 +20,7 @@
 
 	<td><%= link_to "#{t.title}", topic_path(t) %></td>
 	<td><%= link_to "#{t.user.try(:short_name)}",user_info_topics_path(:uid => t.user)%></td>
-	<td><%= t.try(:num)%>/<%=t.view_counter%></td>
+	<td><%= t.try(:num)%>/<%=t.view%></td>
 	<td><%= t.try(:latesttime) %></td>
 
 </tr>

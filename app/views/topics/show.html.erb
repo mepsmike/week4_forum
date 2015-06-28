@@ -8,8 +8,11 @@
 <%else%>
 <%= link_to '收藏文章', collect_topics_path(:tid=>@topic.id), :method => :post %>
 <% end %>
+<% if current_user.role == "admin"%>
+<%= link_to '刪除', topic_path(@topic.id), :method => :delete %>
+<% end %>
 </br>
-<div class="fb-like" data-href="https://localhost:3000/topics" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+<div class="fb-like" data-href="https://localhost:3000/topics/{@topic.id}" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
 </br>
 <% @topic.categories.each do |x| %>
 <span>[<%= x.name %>]</span>	
@@ -36,8 +39,9 @@
 	<hr>
 
 	<%= form_for @comment ,:url => topic_comments_path(@topic) do |c|%>
-	
+	<div class="form-group">
 	<%= c.label :content ,"留言" %></br>
-	<%= c.text_area :content %></br>
+	<%= c.text_area :content,:class=>"form-control",:rows=>8 %></br>
+	</div>
   <%= c.submit "發表" , :class => "btn btn-success" %>
  <% end %>

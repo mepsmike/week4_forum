@@ -119,13 +119,25 @@ class TopicsController < ApplicationController
 
 	def topic_list
 
-		@topics=Topic.select("topics.id, topics.title,topics.view_counter, topics.user_id, count(comments.id) as num,max(comments.updated_at) as latesttime").joins("LEFT JOIN comments ON comments.topic_id = topics.id" ).group("topics.id")
+		@topics=Topic.select("topics.id, topics.title,topics.view_counter as view, topics.user_id, count(comments.id) as num,max(comments.updated_at) as latesttime").joins("LEFT JOIN comments ON comments.topic_id = topics.id" ).group("topics.id")
 
 	end
 
 	def sort_and_page #排序和分頁
 
-		sort_by = (params[:order] == 'num') ? 'num DESC' : 'latesttime DESC'
+		case params[:order] 
+
+		when 'num'
+			sort_by = 'num DESC '
+
+		when 'latesttime'
+			sort_by = 'latesttime DESC'
+
+		when 'view'
+			sort_by = "view DESC"
+
+		end
+		#sort_by = (params[:order] == 'num') ? 'num DESC' : 'latesttime DESC'
 
 
 		if params[:order]

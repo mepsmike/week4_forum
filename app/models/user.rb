@@ -11,4 +11,11 @@ class User < ActiveRecord::Base
   def short_name
   	self.email.split("@").first
   end
+
+  include Gravtastic
+  gravtastic
+
+  def admin?
+    self.role=="admin"
+  end
 end
