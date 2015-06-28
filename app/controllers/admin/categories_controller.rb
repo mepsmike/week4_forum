@@ -11,6 +11,7 @@ class Admin::CategoriesController < ApplicationController
   end
 
   def index
+    
     @categories = Category.all
      
     if params[:cid]
