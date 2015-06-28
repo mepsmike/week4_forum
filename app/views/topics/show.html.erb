@@ -3,13 +3,13 @@
 <%= link_to '返回列表', :back %>
 
 <% if @topic.user_id == current_user.id %>
-<%= link_to '編輯', edit_topic_path %>
-<%= link_to '刪除', topic_path(@topic.id), :method => :delete %>
+	<%= link_to '編輯', edit_topic_path %>
+	<%= link_to '刪除', topic_path(@topic.id), :method => :delete %>
 <%else%>
-<%= link_to '收藏文章', collect_topics_path(:tid=>@topic.id), :method => :post %>
+	<%= link_to '收藏文章', collect_topics_path(:tid=>@topic.id), :method => :post %>
 <% end %>
 <% if current_user.role == "admin"%>
-<%= link_to '刪除', topic_path(@topic.id), :method => :delete %>
+	<%= link_to '刪除', topic_path(@topic.id), :method => :delete %>
 <% end %>
 </br>
 <div class="fb-like" data-href="https://localhost:3000/topics/{@topic.id}" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
@@ -22,20 +22,9 @@
 	<p><%= @topic.content %></p>
 
 	<hr>
-
-	
-
-
 	<% @comments.each do |c|%>
-
-	<p><%= c.content %></p>
-	
-
-
+		<p><%= c.content %></p>
 	<% end %>
-
-	
-
 	<hr>
 
 	<%= form_for @comment ,:url => topic_comments_path(@topic) do |c|%>

@@ -5,29 +5,21 @@
 	<div class="panel-body">
 		<table class="table table-bordered text-center table-condensed">
 
-<tr>
+			<tr>
+				<td></td>
+				<td>作者</td>
+			</tr>
 
-<td></td>
+		<% @topics.each do |t| %>
 
-<td>作者</td>
+		<tr>
+			<td><%= link_to "#{t.title}", topic_path(t) %></td>
+			<td><%= link_to "#{t.user.try(:short_name)}",user_info_topics_path(:uid => t.user)%></td>
+		</tr>
 
+		<% end %>
 
-</tr>
-
-<% @topics.each do |t| %>
-
-<tr>
-
-	<td><%= link_to "#{t.title}", topic_path(t) %></td>
-	<td><%= link_to "#{t.user.try(:short_name)}",user_info_topics_path(:uid => t.user)%></td>
-
-
-</tr>
-
-<% end %>
-
-</table>
-<%= paginate @topics %>
+		</table>
+	<%= paginate @topics %>
 	</div>
-
 </div>

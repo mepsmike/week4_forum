@@ -14,19 +14,10 @@
 <table class = "table">
 
 <%  @categories.each do |c| %>
-
 	<tr>
-
 		<td><%=c.name%></td>
-
-		<td><%= link_to "編輯", admin_categories_path(:cid => c) %></td>
-		
-		<td><%= link_to "刪除", admin_category_path(c), :method => :delete %>
-		
+		<td><%= link_to "編輯", admin_categories_path(:cid => c) %></td>	
+		<td><%= link_to "刪除", admin_category_path(c), :method => :delete %>	
 	<tr>
-
-
-
 <% end %>
-
 </table>
