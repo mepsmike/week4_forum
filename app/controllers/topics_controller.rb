@@ -34,7 +34,7 @@ class TopicsController < ApplicationController
 	end
 
 	def edit
-		if @topic.user == current_user #防止使用者修改網址列修改別人的東西
+		if @topic.user == current_user 
 			render :action => :new
 		end		
 	end
@@ -51,7 +51,10 @@ class TopicsController < ApplicationController
   end
 
   def collect
+  	
+  	
   	@favorite=Favorite.create(:user_id => current_user.id,:topic_id => params[:tid]) 	
+  	
   	redirect_to topics_path
   end
 
@@ -108,7 +111,6 @@ class TopicsController < ApplicationController
 			sort_by = "view DESC"
 
 		end
-		#sort_by = (params[:order] == 'num') ? 'num DESC' : 'latesttime DESC'
 
 
 		if params[:order]
