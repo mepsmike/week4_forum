@@ -52,9 +52,12 @@ class TopicsController < ApplicationController
 
   def collect
   	
-  	
-  	@favorite=Favorite.create(:user_id => current_user.id,:topic_id => params[:tid]) 	
-  	
+  	if Favorite.exists?(:user_id => current_user.id, :topic_id => params[:tid])
+  		Favorite.delete_all(:user_id => current_user.id, :topic_id => params[:tid])
+  
+  	else
+  		@favorite=Favorite.create(:user_id => current_user.id,:topic_id => params[:tid]) 	
+  	end
   	redirect_to topics_path
   end
 
