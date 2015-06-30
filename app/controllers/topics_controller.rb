@@ -20,6 +20,7 @@ class TopicsController < ApplicationController
 
 	def show
 		set_topic
+		@iscollect=check_collect
 		@topic.view_counter += 1
 		@topic.save
 		@comment=Comment.new
@@ -52,7 +53,7 @@ class TopicsController < ApplicationController
 
   def collect
   	
-  	if Favorite.exists?(:user_id => current_user.id, :topic_id => params[:tid])
+  	if  check_collect
   		Favorite.delete_all(:user_id => current_user.id, :topic_id => params[:tid])
   
   	else
@@ -98,6 +99,10 @@ class TopicsController < ApplicationController
 
 	def topic_list
 		@topics=Topic.select("topics.id, topics.title,topics.view_counter as view, topics.user_id, count(comments.id) as num,max(comments.updated_at) as latesttime").joins("LEFT JOIN comments ON comments.topic_id = topics.id" ).group("topics.id")
+	end
+
+	def check_collect
+		Favorite.exists?(:user_id => current_user.id, :topic_id => params[:tid])
 	end
 
 	def sort_and_page #排序和分頁

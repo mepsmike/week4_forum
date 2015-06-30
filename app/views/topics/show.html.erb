@@ -6,14 +6,18 @@
 	<%= link_to '編輯', edit_topic_path %>
 	<%= link_to '刪除', topic_path(@topic.id), :method => :delete %>
 <%else%>
+	<% if @iscollect %>
 	<%= link_to '收藏文章', collect_topics_path(:tid=>@topic.id), :method => :post %>
+	<%else%>
+	<%= link_to '取消收藏文章', collect_topics_path(:tid=>@topic.id), :method => :post %>
+	<%end%>
 <% end %>
 <% if current_user.role == "admin"%>
 	<%= link_to '刪除', topic_path(@topic.id), :method => :delete %>
 <% end %>
 </br>
 <div class="fb-like" data-href="https://localhost:3000/topics/{@topic.id}" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
-</br>
+</br><%=@iscollect.inspect%>
 <% @topic.categories.each do |x| %>
 <span>[<%= x.name %>]</span>	
 <% end %>
