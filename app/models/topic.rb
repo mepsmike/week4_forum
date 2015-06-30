@@ -1,6 +1,6 @@
 class Topic < ActiveRecord::Base
 	has_many :topic_categoryships
-	has_many :comments
+	has_many :comments,:dependent => :destroy
 	has_many :favorites
 	has_many :users, :through => :favorites
 	has_many :categories, :through => :topic_categoryships

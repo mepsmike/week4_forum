@@ -5,6 +5,7 @@ class TopicCommentsController < ApplicationController
 	
 	def create
 		@comment=@topic.comments.build(get_params)
+		@comment.user=current_user
 		@comment.save
 
 		@topic.touch(:last_commented_at)
@@ -15,7 +16,7 @@ class TopicCommentsController < ApplicationController
 	protected
 	
 	def get_params
-		params.require(:comment).permit(:content)
+		params.require(:comment).permit(:content,:user_id)
 	end
 
 	def get_topic
