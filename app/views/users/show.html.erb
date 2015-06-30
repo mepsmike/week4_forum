@@ -1,18 +1,19 @@
 
-<% if params[:uid].to_i == current_user.id.to_i %>
+<% if @user == current_user %>
 
 	<%= link_to "發佈的文章", :uid => current_user,:status => :t %>
 	<%= link_to "草稿夾", :uid => current_user,:status => :f %>
+
 <%else%>
 
-<h3><%=@introduce.email%></h3>
+<h3><%=@user.email%></h3>
 	<div class="panel panel-success">
 		<div class="panel-heading">
 		個人介紹
 		</div>
 		<div class="panel-body">
-		<%= image_tag @introduce.gravatar_url %>
-		<%=@introduce.intro%>
+		<%= user_logo(@user) %>
+		<%= @user.intro %>
 		</div>
 </div>
 <% end %>
@@ -22,7 +23,7 @@
 		文章
 	</div>
 	<div class="panel-body">
-		<%= render :partial => 'topiclist' %>
+		<%= render :partial => 'topics/topiclist' %>
 	</div>
 
 </div>

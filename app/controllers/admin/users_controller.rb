@@ -3,13 +3,6 @@ class Admin::UsersController < ApplicationController
 	before_action :authenticate_user!
   before_action :check_admin
 
-
-  def check_admin
-  	unless current_user.admin?
-      raise ActiveRecord::RecordNotFound
-    end
-  end
-
 	def index
 		@users = User.all
 		if params[:uid]
@@ -32,6 +25,7 @@ class Admin::UsersController < ApplicationController
 		redirect_to admin_users_path
 	end
 
+	protected
 
 	def get_params
 		params.require(:user).permit(:intro,:role)

@@ -3,13 +3,6 @@ class Admin::CategoriesController < ApplicationController
 	before_action :authenticate_user!
   before_action :check_admin
 
-
-  def check_admin
-    unless current_user.admin?
-      raise ActiveRecord::RecordNotFound
-    end
-  end
-
   def index  
     @categories = Category.all
     if params[:cid]
@@ -33,13 +26,12 @@ class Admin::CategoriesController < ApplicationController
 
   def destroy
     @category=Category.find(params[:id])
-    Category.destroy(@category)
+    @category.destroy
+    
     redirect_to admin_categories_path
   end
 
-
-
-
+  protected
 
   def get_params
     params.require(:category).permit(:name)

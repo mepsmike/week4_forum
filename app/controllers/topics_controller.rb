@@ -1,13 +1,15 @@
 class TopicsController < ApplicationController
 
-	before_action :set_topic, :only =>[:show,:destroy,:edit,:update]
-	before_action :topic_list, :only =>[:index,:user_info,:collect_list]
+	before_action :set_topic, :only =>[:show, :collect]
+	before_action :set_my_topic, :only => [:destroy,:edit,:update]
 	before_action :authenticate_user!, :except => [:index]
 
-	def index	
+	def index
+		@topics = Topic.all
 		@categories=Category.all	
+
 		if params[:cid] 
-			@topics=@topics.joins(:categories).where(:categories => { :id => params[:cid] },:status => :t )		
+			@topics=@topics.joins(:categories).where(:categories => { :id => params[:cid] }, :status => :t )		
 		else
 			@topics=@topics.where(:status => :t)	
 		end
@@ -20,9 +22,11 @@ class TopicsController < ApplicationController
 
 	def show
 		set_topic
-		@iscollect=check_collect
-		@topic.view_counter += 1
-		@topic.save
+		
+		@favorite = get_favorite
+
+		@topic.increment!(:view_counter)
+
 		@comment=Comment.new
 		@comments=@topic.comments
 	end
@@ -30,64 +34,40 @@ class TopicsController < ApplicationController
 	def create
 		@topic=Topic.new(get_params)
 		@topic.user = current_user
-		@topic.save
+		@topic.save # TODO: handle failed case
+
 		redirect_to topics_path
 	end
 
 	def edit
-		if @topic.user == current_user 
-			render :action => :new
-		end		
+		render :action => :new
 	end
-
 
 	def update
 		@topic.update(get_params)
+
 		redirect_to topics_path
 	end
 
 	def destroy
-		Topic.destroy(@topic)
+		@topic.destroy
+
 		redirect_to topics_path
   end
 
   def collect
-  	
-  	if  check_collect
-  		Favorite.delete_all(:user_id => current_user.id, :topic_id => params[:tid])
-  
+  	f = get_favorite
+
+  	if f
+  		f.destroy
   	else
-  		@favorite=Favorite.create(:user_id => current_user.id,:topic_id => params[:tid]) 	
+  		current_user.favorites.create!( :topic => @topic )
   	end
-  	redirect_to topics_path
+
+  	redirect_to topic_path(@topic)
   end
 
-  def collect_list
-  	@user = User.find(params[:uid])
-  	@topics =@user.favorite_topics.page(params[:page]).per(10)
-  end
-
-	def about
-
-		@countuser = User.count
-		@counttopic = Topic.count
-		@countcomment= Comment.count
-
-	end
-
-	def user_info
-		if params[:uid].to_i == current_user.id.to_i
-			if params[:status] == "f"
-				@topics=@topics.where(:user_id => params[:uid],:status => :f).page(params[:page]).per(10)
-			else
-				@topics=@topics.where(:user_id => params[:uid],:status => :t).page(params[:page]).per(10)
-			end
-		else 
-			@introduce = User.find(params[:uid])
-			@topics=@topics.where(:user_id => params[:uid]).page(params[:page]).per(10)
-		end
-		sort_and_page
-	end
+	protected
 
 	def get_params
 		params.require(:topic).permit(:title, :content, :status, :logo, :category_ids => [])
@@ -97,38 +77,12 @@ class TopicsController < ApplicationController
 		@topic=Topic.find(params[:id])
 	end
 
-	def topic_list
-		@topics=Topic.select("topics.id, topics.title,topics.view_counter as view, topics.user_id, count(comments.id) as num,max(comments.updated_at) as latesttime").joins("LEFT JOIN comments ON comments.topic_id = topics.id" ).group("topics.id")
+	def set_my_topic
+		@topic = current_user.topics.find(params[:id])
 	end
 
-	def check_collect
-		Favorite.exists?(:user_id => current_user.id, :topic_id => params[:tid])
-	end
-
-	def sort_and_page #排序和分頁
-
-		case params[:order] 
-
-		when 'num'
-			sort_by = 'num DESC '
-
-		when 'latesttime'
-			sort_by = 'latesttime DESC'
-
-		when 'view'
-			sort_by = "view DESC"
-
-		end
-
-
-		if params[:order]
-
-			@topics=@topics.order(sort_by)
-
-		end
-
-		@topics=@topics.order("topics.id desc").page(params[:page]).per(10)
-
+	def get_favorite
+		current_user.favorites.find_by_topic_id( params[:tid] || params[:id] )
 	end
 
 end
