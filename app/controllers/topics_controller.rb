@@ -90,7 +90,7 @@ class TopicsController < ApplicationController
 	end
 
 	def get_params
-		params.require(:topic).permit(:title, :content, :status,:category_ids => [])
+		params.require(:topic).permit(:title, :content, :status, :logo, :category_ids => [])
 	end
 
 	def set_topic

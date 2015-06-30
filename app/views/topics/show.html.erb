@@ -25,6 +25,11 @@
 <h1><%= @topic.title %></h1>
 	<p><%= @topic.content %></p>
 
+	<% if @topic.logo.exists? %>
+		<%= image_tag(@topic.logo.url) %>
+	<% else %>
+	none
+	<% end %>
 	<hr>
 	<% @comments.each do |c|%>
 		<p><%= c.content %></p>
