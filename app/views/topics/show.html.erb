@@ -18,23 +18,49 @@
 </br>
 <div class="fb-like" data-href="https://localhost:3000/topics/{@topic.id}" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
 </br>
-<% @topic.categories.each do |x| %>
-<span>[<%= x.name %>]</span>	
-<% end %>
 
-<h1><%= @topic.title %></h1>
-	<p><%= @topic.content %></p>
+<div class="container">
 
-	<% if @topic.logo.exists? %>
-		<%= image_tag(@topic.logo.url) %>
-	<% else %>
-	none
-	<% end %>
+	<div class="row">
+		<% @topic.categories.each do |x| %>
+			<span>[<%= x.name %>]</span>	
+		<% end %>
+		<h1><%= @topic.title %></h1>
+	</div>
+	
+	<div class="row">
+
+		<div class="col-md-2">
+			<div class="user-name"><%= @topic.user.short_name %></div> 
+			<div class="user-picture"></div>
+			<div class="user-interact"><a href="#" class="btn btn-primary btn-xs">加好友</a></div>
+		</div>
+
+		<div class="col-md-10">
+			<% if @topic.logo.exists? %>
+				<%= image_tag(@topic.logo.url) %>
+			<% end %>
+			<p><%= @topic.content %></p>
+		</div>
+		
+	
 	<hr>
-	<% @comments.each do |c|%>
-		<p><%= c.content %></p>
+
+	</div>
+
+ <% @comments.each do |c|%>
+	<div class="row">
+		<div class="col-md-2">
+			<div class="user-name"><%= c.user.short_name %></div> 
+			<div class="user-picture"></div>
+			<div class="user-interact"><a href="#" class="btn btn-primary btn-xs">加好友</a></div>
+		</div>
+
+		<div class="col-md-10">
+				<p><%= c.content %></p>	
+		</div>
+	</div>
 	<% end %>
-	<hr>
 
 	<%= form_for @comment ,:url => topic_comments_path(@topic) do |c|%>
 	<div class="form-group">
@@ -43,3 +69,4 @@
 	</div>
   <%= c.submit "發表" , :class => "btn btn-success" %>
  <% end %>
+</div>
