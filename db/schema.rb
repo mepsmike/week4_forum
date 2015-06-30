@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150629115925) do
+ActiveRecord::Schema.define(version: 20150630070830) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -50,12 +50,18 @@ ActiveRecord::Schema.define(version: 20150629115925) do
   create_table "topics", force: :cascade do |t|
     t.string   "title"
     t.text     "content"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.integer  "user_id"
     t.integer  "users_count"
     t.string   "status"
-    t.integer  "view_counter", default: 0
+    t.integer  "view_counter",      default: 0
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
+    t.integer  "comments_count",    default: 0
+    t.datetime "last_commented_at"
   end
 
   add_index "topics", ["user_id"], name: "index_topics_on_user_id"

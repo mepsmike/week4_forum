@@ -2,21 +2,23 @@ Rails.application.routes.draw do
   #devise_for :users
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   
+  resources :users do
+    member do
+      get :collect_list
+    end    
+  end
+
   root :to => "topics#index"
+
+  get "/about" => "topics#about"
 
   resources :topics do
 
     resources :comments, :controller => 'topic_comments'
 
-    collection do
-
-      get :about
-      get :user_info
-      post :collect
-      get :collect_list
+    member do
+      post :collect   
     end
-
-    
 
   end
 
