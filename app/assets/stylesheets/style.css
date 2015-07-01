@@ -1,3 +1,68 @@
-.comment{
+/*index*/
+
+.list-title{
+	color:black;
+}
+
+/* show */
+.topic-title{
+	border:1px solid #ccc;
+	width:100%;
+	text-align: center;
+}
+
+.topic-title span{
+	font-size:1.5em;
+}
+.comment-box{
+
+width:100%;
+clear:both;
+
+}
+.cb-user{
+	min-height:300px;
+	border:1px solid #ccc;
+	text-align: center;
+	margin-right:-1px;
+
+}
+
+.user-name{
+	margin-top: 10px;
+
+}
+
+.user-picture{
+	border:1px solid #ccc;
+	height:150px;
+	margin-top: 10px;
+}
+
+.user-interact{
+	margin-top:10px;
+}
+
+.cb-content{
+	min-height:300px;
+	border:1px solid #ccc;
+}
+
+.create-at{
 	
+	padding-top:10px;
+	padding-bottom:5px;
+	border-bottom:1px solid #ccc;
+}
+
+.content{
+	padding-top:10px;
+}
+
+.comment-post{
+	width:100%;
+
+}
+.manipulate-topic{
+	float:right;
 }

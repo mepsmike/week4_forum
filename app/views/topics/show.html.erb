@@ -1,42 +1,44 @@
 
+<div>
+<%= link_to '返回列表', :back ,:class => "btn btn-info btn-xs"%>
+</div>
 
-<%= link_to '返回列表', :back %>
+<div class="manipulate-topic">
 
-<% if @topic.user_id == current_user.id %>
-	<%= link_to '編輯', edit_topic_path %>
-	<%= link_to '刪除', topic_path(@topic.id), :method => :delete %>
-<%else%>
-	<% if @favorite %>
-	<%= link_to '收藏文章', collect_topic_path(@topic), :method => :post %>
+	<% if @topic.user_id == current_user.id %>
+		<%= link_to '編輯文章', edit_topic_path,:class=>"btn btn-warning btn-sm" %>
+		<%= link_to '刪除文章', topic_path(@topic.id),:class=>"btn btn-danger btn-sm", :method => :delete,:data => { :confirm => "確定刪除？"} %>
 	<%else%>
-	<%= link_to '取消收藏文章', collect_topic_path(@topic), :method => :post %>
-	<%end%>
-<% end %>
-<% if current_user.role == "admin"%>
-	<%= link_to '刪除', topic_path(@topic.id), :method => :delete %>
-<% end %>
+		<% if @favorite %>
+		<%= link_to '收藏文章', collect_topic_path(@topic),:class=>"btn btn-primary btn-sm", :method => :post %>
+		<%else%>
+		<%= link_to '取消收藏文章', collect_topic_path(@topic),:class=>"btn btn-primary btn-sm", :method => :post %>
+		<%end%>
+	<% end %>
+
+</div>
 </br>
 <div class="fb-like" data-href="https://localhost:3000/topics/{@topic.id}" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
 </br>
 
 <div class="container">
 
-	<div class="row">
+	<div class="row topic-title">
 		<% @topic.categories.each do |x| %>
 			<span>[<%= x.name %>]</span>	
 		<% end %>
-		<h1><%= @topic.title %></h1>
+		<span><%= @topic.title %></span>
 	</div>
 	
-	<div class="row">
+	<div class="row comment-box">
 
-		<div class="col-md-2">
+		<div class="col-md-2 cb-user">
 			<div class="user-name"><%= @topic.user.short_name %></div> 
 			<div class="user-picture"></div>
 			<div class="user-interact"><a href="#" class="btn btn-primary btn-xs">加好友</a></div>
 		</div>
 
-		<div class="col-md-10">
+		<div class="col-md-10 cb-content">
 			<% if @topic.logo.exists? %>
 				<%= image_tag(@topic.logo.url) %>
 			<% end %>
@@ -49,19 +51,22 @@
 	</div>
 
  <% @comments.each do |c|%>
-	<div class="row">
-		<div class="col-md-2">
+	<div class="row comment-box">
+		<div class="col-md-2 cb-user">
 			<div class="user-name"><%= c.user.short_name %></div> 
 			<div class="user-picture"></div>
 			<div class="user-interact"><a href="#" class="btn btn-primary btn-xs">加好友</a></div>
 		</div>
 
-		<div class="col-md-10">
-				<p><%= c.content %></p>	
+		<div class="col-md-10 cb-content">
+			<div class="create-at">發表於：<%=c.created_at.to_s(:db) %></div>
+			
+			<div class="content"><p><%= c.content %></p></div>
 		</div>
 	</div>
 	<% end %>
 
+	<div class="row comment-post">
 	<%= form_for @comment ,:url => topic_comments_path(@topic) do |c|%>
 	<div class="form-group">
 	<%= c.label :content ,"留言" %></br>
@@ -69,4 +74,6 @@
 	</div>
   <%= c.submit "發表" , :class => "btn btn-success" %>
  <% end %>
+ </div>
 </div>
+
