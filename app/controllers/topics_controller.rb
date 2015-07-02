@@ -52,7 +52,7 @@ class TopicsController < ApplicationController
 	def destroy
 		@topic.destroy
 
-		redirect_to topics_path
+  	redirect_to topics_path
   end
 
   def collect
@@ -65,6 +65,14 @@ class TopicsController < ApplicationController
   	end
 
   	redirect_to topic_path(@topic)
+  end
+
+  def about
+
+  	@countuser = User.count
+  	@counttopic=Topic.count
+  	@countcomment=Comment.count
+
   end
 
 	protected

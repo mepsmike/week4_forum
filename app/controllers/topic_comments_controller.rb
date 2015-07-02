@@ -10,7 +10,21 @@ class TopicCommentsController < ApplicationController
 
 		@topic.touch(:last_commented_at)
 
-		redirect_to topics_path
+		redirect_to topic_path(@topic)
+	end
+
+	def destroy
+		get_my_comment
+		@comment.destroy
+		
+		
+		respond_to do |format|
+     format.html {
+       redirect_to topic_path(@topic)
+     }
+     format.js
+    end
+
 	end
 
 	protected
@@ -21,5 +35,9 @@ class TopicCommentsController < ApplicationController
 
 	def get_topic
 		@topic=Topic.find(params[:topic_id])
+	end
+
+	def get_my_comment
+		@comment=current_user.comments.find(params[:id])
 	end
 end

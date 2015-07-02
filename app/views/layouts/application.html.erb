@@ -14,6 +14,7 @@
   
 </head>
 <body>
+
 <div id="fb-root"></div>
   <script>(function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
@@ -45,6 +46,25 @@
         </div>
         <!--/.container-fluid -->
     </nav>
+
+    <div class="user-nav">
+      <% if current_user %>
+        hi! <%= current_user.email %>
+        <%= link_to('登出', destroy_user_session_path, :method => :delete) %> |
+        <%= link_to('修改個人資料', edit_registration_path(:user)) %> |
+        <%= link_to('查看我的發文', user_path(current_user))%> |
+        <%= link_to('收藏的文章', collect_list_user_path(current_user))%> |
+  
+      <% if current_user.admin? %>
+        <%= link_to('管理後台',admin_categories_path)%>
+      <% end %>
+
+      <% else %>
+        <%= link_to('註冊', new_registration_path(:user)) %> |
+        <%= link_to('登入', new_session_path(:user)) %> |
+         <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %>
+      <% end %>
+    </div>
 <%= yield %>
 
 </div>

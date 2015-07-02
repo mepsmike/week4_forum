@@ -10,9 +10,9 @@
 		<%= link_to '刪除文章', topic_path(@topic.id),:class=>"btn btn-danger btn-sm", :method => :delete,:data => { :confirm => "確定刪除？"} %>
 	<%else%>
 		<% if @favorite %>
-		<%= link_to '收藏文章', collect_topic_path(@topic),:class=>"btn btn-primary btn-sm", :method => :post %>
+		<%= link_to '取消收藏此文章', collect_topic_path(@topic),:class=>"btn btn-primary btn-sm", :method => :post %>
 		<%else%>
-		<%= link_to '取消收藏文章', collect_topic_path(@topic),:class=>"btn btn-primary btn-sm", :method => :post %>
+		<%= link_to '收藏', collect_topic_path(@topic),:remote=>true,:class=>"btn btn-primary btn-sm", :method => :post %>
 		<%end%>
 	<% end %>
 
@@ -51,7 +51,7 @@
 	</div>
 
  <% @comments.each do |c|%>
-	<div class="row comment-box">
+	<div class="row comment-box" id="comment-box-<%=c.id%>">
 		<div class="col-md-2 cb-user">
 			<div class="user-name"><%= c.user.short_name %></div> 
 			<div class="user-picture"></div>
@@ -59,7 +59,10 @@
 		</div>
 
 		<div class="col-md-10 cb-content">
-			<div class="create-at">發表於：<%=c.created_at.to_s(:db) %></div>
+			<div class="create-at">
+				發表於：<%=c.created_at.to_s(:db) %>
+				<%= link_to "刪除",topic_comment_path(@topic,c),:remote=>true,:method =>:delete%>	
+			</div>
 			
 			<div class="content"><p><%= c.content %></p></div>
 		</div>

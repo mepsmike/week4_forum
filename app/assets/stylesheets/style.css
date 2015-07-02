@@ -1,9 +1,34 @@
+body{
+
+	background: #ccc;
+}
+
 /*index*/
+.container{
+	background: white;
+}
+.container .container{
+	background:white;
+
+	width:99%;
+}
 
 .list-title{
 	color:black;
 }
 
+.user-nav{
+	margin-top:10px;
+	margin-bottom: 10px;
+}
+
+.new-post{
+	margin-bottom: 10px;
+}
+
+.category-link{
+	margin-bottom: 5px;
+}
 /* show */
 .topic-title{
 	border:1px solid #ccc;
