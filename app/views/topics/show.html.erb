@@ -10,9 +10,9 @@
 		<%= link_to '刪除文章', topic_path(@topic.id),:class=>"btn btn-danger btn-sm", :method => :delete,:data => { :confirm => "確定刪除？"} %>
 	<%else%>
 		<% if @favorite %>
-		<%= link_to '取消收藏此文章', collect_topic_path(@topic),:class=>"btn btn-primary btn-sm", :method => :post %>
+		<%= link_to '取消收藏此文章', collect_topic_path(@topic),:id=>"btn-collect",:remote=>true,:class=>"btn btn-primary btn-sm", :method => :post %>
 		<%else%>
-		<%= link_to '收藏', collect_topic_path(@topic),:remote=>true,:class=>"btn btn-primary btn-sm", :method => :post %>
+		<%= link_to '收藏', collect_topic_path(@topic),:id=>"btn-collect",:remote=>true,:class=>"btn btn-primary btn-sm", :method => :post %>
 		<%end%>
 	<% end %>
 

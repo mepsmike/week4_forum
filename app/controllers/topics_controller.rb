@@ -56,15 +56,22 @@ class TopicsController < ApplicationController
   end
 
   def collect
-  	f = get_favorite
+  	@f = get_favorite
 
-  	if f
-  		f.destroy
+  	if @f
+  		@f.destroy
   	else
   		current_user.favorites.create!( :topic => @topic )
   	end
 
-  	redirect_to topic_path(@topic)
+  	respond_to do |format|
+     format.html {
+       redirect_to topic_path(@topic)
+     }
+     format.js
+    end
+
+  	
   end
 
   def about
