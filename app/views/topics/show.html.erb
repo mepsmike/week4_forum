@@ -75,7 +75,7 @@
 	<%= c.label :content ,"留言" %></br>
 	<%= c.text_area :content,:class=>"form-control",:rows=>8 %></br>
 	</div>
-  <%= c.submit "發表" , :class => "btn btn-success" %>
+  <%= c.submit "發表" ,:remote => true, :class => "btn btn-success" %>
  <% end %>
  </div>
 </div>
