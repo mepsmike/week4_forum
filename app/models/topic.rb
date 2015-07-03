@@ -7,6 +7,7 @@ class Topic < ActiveRecord::Base
 	belongs_to :user
 	has_many :topic_tagship
 	has_many :tags, :through => :topic_tagship
+  hsa_many :like_user, :through => :favorites, :source => :user
 
 
 	has_attached_file :logo, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"

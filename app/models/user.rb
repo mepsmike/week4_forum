@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   has_many :favorites
   has_many :comments
   has_many :favorite_topics ,:through => :favorites ,:source =>:topic
+  has_many :like_topics , :through => :like,:source => :topic
 
   def short_name
   	self.email.split("@").first
