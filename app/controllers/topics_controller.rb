@@ -17,8 +17,13 @@ class TopicsController < ApplicationController
 	end
 
 	def new
+
+		gon.tags = Tag.all.map{ |x| x.name } #要放在最前面？！
 		@topic=Topic.new
+		
 	end
+
+
 
 	def show
 		set_topic
@@ -74,6 +79,7 @@ class TopicsController < ApplicationController
   	
   end
 
+
   def about
 
   	@countuser = User.count
@@ -85,7 +91,7 @@ class TopicsController < ApplicationController
 	protected
 
 	def get_params
-		params.require(:topic).permit(:title, :content, :status, :logo, :category_ids => [])
+		params.require(:topic).permit(:title, :content, :status, :logo, :tag_list, :category_ids => [])
 	end
 
 	def set_topic
