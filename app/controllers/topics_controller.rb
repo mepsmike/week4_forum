@@ -1,6 +1,6 @@
 class TopicsController < ApplicationController
 
-	before_action :set_topic, :only =>[:show, :collect]
+	before_action :set_topic, :only =>[:show, :collect, :like]
 	before_action :set_my_topic, :only => [:destroy,:edit,:update]
 	before_action :authenticate_user!, :except => [:index]
 
@@ -29,6 +29,7 @@ class TopicsController < ApplicationController
 		set_topic
 		
 		@favorite = get_favorite
+		@like = get_like
 
 		@topic.increment!(:view_counter)
 
@@ -61,10 +62,10 @@ class TopicsController < ApplicationController
   end
 
   def collect
-  	@f = get_favorite
+  	f = get_favorite
 
-  	if @f
-  		@f.destroy
+  	if f
+  		f.destroy
   	else
   		current_user.favorites.create!( :topic => @topic )
   	end
@@ -78,6 +79,26 @@ class TopicsController < ApplicationController
 
   	
   end
+
+  def like
+  	l = get_like
+
+  	if l
+  		l.destroy
+  			@topic.decrement!(:like)
+  	else
+  		current_user.likes.create!(:topic => @topic)
+  		@topic.increment!(:like)
+  	end
+
+  	respond_to do |format|
+     format.html {
+       redirect_to topic_path(@topic)
+     }
+     format.js
+    end
+  end
+
 
 
   def about
@@ -103,7 +124,11 @@ class TopicsController < ApplicationController
 	end
 
 	def get_favorite
-		current_user.favorites.find_by_topic_id( params[:tid] || params[:id] )
+		current_user.favorites.find_by_topic_id(  params[:id] )
+	end
+
+	def get_like
+		current_user.likes.find_by_topic_id( params[:id])
 	end
 
 end

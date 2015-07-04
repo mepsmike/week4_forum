@@ -22,6 +22,8 @@ class UsersController < ApplicationController
   def collect_list
   	@user = current_user
   	@topics =@user.favorite_topics.page(params[:page]).per(10)
+  	@likes = @user.like_topics
   end
+
 
 end

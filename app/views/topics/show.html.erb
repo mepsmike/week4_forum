@@ -5,23 +5,36 @@
 
 <div class="manipulate-topic">
 
-	<% if @topic.user_id == current_user.id %>
+	<% if current_user? || admin? %>
 		<%= link_to '編輯文章', edit_topic_path,:class=>"btn btn-warning btn-sm" %>
 		<%= link_to '刪除文章', topic_path(@topic.id),:class=>"btn btn-danger btn-sm", :method => :delete,:data => { :confirm => "確定刪除？"} %>
-	<%else%>
+	<%end%>
+
+
+	<%if @topic.like%> <span><%=@topic.like %>人覺得讚</span> <%end%>
+	
+	<div>
 		<% if @favorite %>
-		<%= link_to '取消收藏此文章', collect_topic_path(@topic),:id=>"btn-collect",:remote=>true,:class=>"btn btn-primary btn-sm", :method => :post %>
+				<%= link_to '取消收藏此文章', collect_topic_path(@topic),:id=>"btn-collect",:remote=>true,:class=>"btn btn-primary btn-sm", :method => :post %>
 		<%else%>
-		<%= link_to '收藏', collect_topic_path(@topic),:id=>"btn-collect",:remote=>true,:class=>"btn btn-primary btn-sm", :method => :post %>
-		<%= link_to 'Like', topic_path(@topic),:id=>"btn-like",:remote=>true,:class=>"btn btn-default btn-sm", :method => :post %>
+				<%= link_to '收藏', collect_topic_path(@topic),:id=>"btn-collect",:remote=>true,:class=>"btn btn-primary btn-sm", :method => :post %>
 		<%end%>
-	<% end %>
+
+		
+		<% if @like %>
+			<%= link_to 'Unlike', like_topic_path(@topic),:id=>"btn-like",:remote=>true,:class=>"btn btn-default btn-sm", :method => :post %>
+		<% else %>
+			<%= link_to 'Like', like_topic_path(@topic),:id=>"btn-like",:remote=>true,:class=>"btn btn-default btn-sm", :method => :post %>
+		<% end %>
+	</div>
+	
+	
 
 </div>
 </br>
 <div class="fb-like" data-href="https://localhost:3000/topics/{@topic.id}" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
 </br>
-
+</br>
 <div class="container">
 
 	<div class="row topic-title">

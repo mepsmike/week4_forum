@@ -17,7 +17,8 @@ Rails.application.routes.draw do
     resources :comments, :controller => 'topic_comments'
 
     member do
-      post :collect   
+      post :collect 
+      post :like  
     end
 
   end

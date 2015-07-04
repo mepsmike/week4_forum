@@ -1,12 +1,12 @@
 <div class="panel panel-info">
 	<div class="panel-heading">
-		文章
+		收藏的文章
 	</div>
 	<div class="panel-body">
 		<table class="table table-bordered text-center table-condensed">
 
 			<tr>
-				<td></td>
+				<td>標題</td>
 				<td>作者</td>
 			</tr>
 
@@ -26,4 +26,34 @@
 		</table>
 	<%= paginate @topics %>
 	</div>
+
+	<div class="panel-heading">
+		按讚的文章
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered text-center table-condensed">
+
+			<tr>
+				<td>標題</td>
+				<td>作者</td>
+			</tr>
+
+		<% @likes.each do |t| %>
+
+		<tr>
+			<td><%= link_to t.title, topic_path(t) %></td>
+			<td>
+				<% if t.user %>
+					<%= link_to t.user.short_name, user_path(t.user)%>
+				<% end %>
+			</td>
+		</tr>
+
+		<% end %>
+
+		</table>
+
+	</div>
+
+
 </div>

@@ -6,10 +6,11 @@ class User < ActiveRecord::Base
          :omniauthable, :omniauth_providers => [:facebook]
 
   has_many :topics
-  has_many :favorites
   has_many :comments
+  has_many :favorites
   has_many :favorite_topics ,:through => :favorites ,:source =>:topic
-  has_many :like_topics , :through => :like,:source => :topic
+  has_many :likes
+  has_many :like_topics , :through => :likes,:source => :topic
 
   def short_name
   	self.email.split("@").first

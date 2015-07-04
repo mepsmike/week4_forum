@@ -1,13 +1,20 @@
 class Topic < ActiveRecord::Base
+  belongs_to :user
+  has_many :categories, :through => :topic_categoryships
 	has_many :topic_categoryships
+
 	has_many :comments,:dependent => :destroy
-	has_many :favorites
-	has_many :users, :through => :favorites
-	has_many :categories, :through => :topic_categoryships
-	belongs_to :user
+	
+  has_many :favorites
+  has_many :user_favorites, :through => :favorites, :source => :user
+  #has_many :users, :through => :favorites
+
+  has_many :likes
+  has_many :user_likes, :through => :likes, :source => :user
+	
+
 	has_many :topic_tagship
 	has_many :tags, :through => :topic_tagship
-  hsa_many :like_user, :through => :favorites, :source => :user
 
 
 	has_attached_file :logo, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
