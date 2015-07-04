@@ -11,9 +11,8 @@
 	<%end%>
 
 
-	<%if @topic.like%> <span><%=@topic.like %>人覺得讚</span> <%end%>
 	
-	<div>
+	
 		<% if @favorite %>
 				<%= link_to '取消收藏此文章', collect_topic_path(@topic),:id=>"btn-collect",:remote=>true,:class=>"btn btn-primary btn-sm", :method => :post %>
 		<%else%>
@@ -26,7 +25,10 @@
 		<% else %>
 			<%= link_to 'Like', like_topic_path(@topic),:id=>"btn-like",:remote=>true,:class=>"btn btn-default btn-sm", :method => :post %>
 		<% end %>
-	</div>
+		
+		<div>	
+	 		<%if @topic.like%> <span id="like-count"><%=@topic.like %></span><span>人覺得讚</span><%end%>
+		</div>
 	
 	
 
@@ -89,7 +91,7 @@
 	<%= c.label :content ,"留言" %></br>
 	<%= c.text_area :content,:class=>"form-control",:rows=>8 %></br>
 	</div>
-  <%= c.submit "發表" ,:remote => true, :class => "btn btn-success" %>
+  <%= c.submit "發表" ,:id =>"commit",:remote => true, :class => "btn btn-success" %>
  <% end %>
  </div>
 </div>

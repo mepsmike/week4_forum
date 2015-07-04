@@ -1,12 +1,14 @@
 
 var text=$("#btn-like").text()
-
+var count = <%=@topic.like.to_i%>
 
 if (text=="Like"){
- $("#btn-like").text("Unlike")
 
+ $("#btn-like").text("Unlike")
+ $("#like-count").text(count)
 }
 else{
+	
  $("#btn-like").text("Like")
-
+ $("#like-count").text(count)
 }

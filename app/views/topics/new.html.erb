@@ -1,3 +1,15 @@
+
+<% if @topic.errors.any? %>
+      
+      <ul>
+      <% @topic.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+      
+<% end %>
+
+
 <%= form_for @topic do |f|%>
 
 <div class="form-group">

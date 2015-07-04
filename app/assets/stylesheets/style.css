@@ -89,5 +89,11 @@ clear:both;
 
 }
 .manipulate-topic{
+
+	float:right;
+	margin-left:10px;
+}
+.manipulate-topic div{
+
 	float:right;
 }

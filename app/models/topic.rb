@@ -1,4 +1,7 @@
 class Topic < ActiveRecord::Base
+
+  validates_presence_of :title
+
   belongs_to :user
   has_many :categories, :through => :topic_categoryships
 	has_many :topic_categoryships

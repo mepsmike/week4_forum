@@ -67,6 +67,11 @@
          <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %>
       <% end %>
     </div>
+    
+    <%if flash[:notice].present?%>
+      <div class="alert alert-success" role="alert"><%= flash[:notice] %></div>
+      <div class="alert alert-danger"><%= flash[:alert] %></div>
+    <%end%>
 <%= yield %>
 
 </div>

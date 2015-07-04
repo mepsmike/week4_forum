@@ -40,9 +40,13 @@ class TopicsController < ApplicationController
 	def create
 		@topic=Topic.new(get_params)
 		@topic.user = current_user
-		@topic.save # TODO: handle failed case
-
-		redirect_to topics_path
+		
+		if@topic.save # TODO: handle failed case
+			redirect_to topics_path
+			flash[:notice] = "新增文章成功"
+		else
+			render :action => :new
+		end
 	end
 
 	def edit
@@ -50,15 +54,21 @@ class TopicsController < ApplicationController
 	end
 
 	def update
-		@topic.update(get_params)
+		if @topic.update(get_params)
 
-		redirect_to topics_path
+			redirect_to topics_path
+			flash[:notice] = "更新文章成功"
+		else 
+			render :action => :new
+		end
 	end
 
 	def destroy
-		@topic.destroy
+		if@topic.destroy
 
   	redirect_to topics_path
+  	flash[:alert] = "刪除文章成功"
+  	end
   end
 
   def collect
