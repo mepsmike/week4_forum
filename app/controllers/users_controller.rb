@@ -25,5 +25,9 @@ class UsersController < ApplicationController
   	@topics_like = @user.like_topics.page(params[:page]).per(5)
   end
 
-
+  def friend_list
+  	
+  	@friends = current_user.friendships
+  	@beinvited = Friendship.where( :friend_id=>current_user)
+  end
 end

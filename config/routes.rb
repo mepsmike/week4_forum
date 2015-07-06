@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :users do
     member do
       get :collect_list
+      get :friend_list
     end    
   end
 
@@ -12,13 +13,15 @@ Rails.application.routes.draw do
 
   get "/about" => "topics#about"
 
+  resource :friendship , :only => [:create, :destroy,:update ]
+
   resources :topics do
 
     resources :comments, :controller => 'topic_comments'
 
     member do
       post :collect 
-      post :like  
+      post :like
     end
 
   end

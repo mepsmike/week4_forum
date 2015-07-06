@@ -7,10 +7,17 @@ class User < ActiveRecord::Base
 
   has_many :topics
   has_many :comments
+
   has_many :favorites
   has_many :favorite_topics ,:through => :favorites ,:source =>:topic
+
   has_many :likes
   has_many :like_topics , :through => :likes,:source => :topic
+
+  has_many :friendships
+  has_many :friends , :through => :friendship
+  has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
+  has_many :inverse_friends, :through => :inverse_friendships, :source => :user
 
   def short_name
   	self.email.split("@").first

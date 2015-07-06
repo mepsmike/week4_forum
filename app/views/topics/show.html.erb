@@ -27,7 +27,7 @@
 		<% end %>
 		
 		<div>	
-	 		<%if @topic.like%> <span id="like-count"><%=@topic.like %></span><span>人覺得讚</span><%end%>
+	 		<span id="like-count"><%=@topic.like %></span><span>人覺得讚</span>
 		</div>
 	
 	
@@ -51,7 +51,7 @@
 		<div class="col-md-2 cb-user">
 			<div class="user-name"><%= @topic.user.short_name %></div> 
 			<div class="user-picture"></div>
-			<div class="user-interact"><a href="#" class="btn btn-primary btn-xs">加好友</a></div>
+			<div class="user-interact"><%= link_to "加好友",friendship_path(:friend_id=>@topic.user_id) ,:class => "btn btn-priamry btn-sm", :method => :post %></div>
 		</div>
 
 		<div class="col-md-10 cb-content">
@@ -60,38 +60,47 @@
 			<% end %>
 			<p><%= @topic.content %></p>
 		</div>
+
 		
 	
 	<hr>
+
 
 	</div>
 
  <% @comments.each do |c|%>
 	<div class="row comment-box" id="comment-box-<%=c.id%>">
-		<div class="col-md-2 cb-user">
+<!--		<div class="col-md-2 cb-user">
 			<div class="user-name"><%= c.user.short_name %></div> 
 			<div class="user-picture"></div>
-			<div class="user-interact"><a href="#" class="btn btn-primary btn-xs">加好友</a></div>
+			<div class="user-interact">
+				
+				<%= link_to "加好友",friendship_path(:friend_id=>c.user_id) ,:class => "btn btn-priamry btn-sm", :method => :post %>
+
+			</div>
 		</div>
 
 		<div class="col-md-10 cb-content">
 			<div class="create-at">
 				發表於：<%=c.created_at.to_s(:db) %>
-				<%= link_to "刪除",topic_comment_path(@topic,c),:remote=>true,:method =>:delete%>	
+				<% if current_user == c.user %>
+					<%= link_to "刪除",topic_comment_path(@topic,c),:remote=>true,:method =>:delete%>	
+				<%end%>
 			</div>
 			
 			<div class="content"><p><%= c.content %></p></div>
-		</div>
+		</div>-->
+		 <%= render :partial => "topic_comments/comment", :locals => { :c => c } %>
 	</div>
-	<% end %>
+<% end %>
 
 	<div class="row comment-post">
-	<%= form_for @comment ,:url => topic_comments_path(@topic) do |c|%>
+	<%= form_for @comment,:remote => true ,:url => topic_comments_path(@topic) do |c|%>
 	<div class="form-group">
 	<%= c.label :content ,"留言" %></br>
 	<%= c.text_area :content,:class=>"form-control",:rows=>8 %></br>
 	</div>
-  <%= c.submit "發表" ,:id =>"commit",:remote => true, :class => "btn btn-success" %>
+  <%= c.submit "發表" ,:id =>"commit", :class => "btn btn-success" %>
  <% end %>
  </div>
 </div>

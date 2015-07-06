@@ -30,6 +30,7 @@ class TopicsController < ApplicationController
 		
 		@favorite = get_favorite
 		@like = get_like
+		
 
 		@topic.increment!(:view_counter)
 
@@ -110,7 +111,6 @@ class TopicsController < ApplicationController
   end
 
 
-
   def about
 
   	@countuser = User.count
@@ -134,11 +134,12 @@ class TopicsController < ApplicationController
 	end
 
 	def get_favorite
-		current_user.favorites.find_by_topic_id(  params[:id] )
+		current_user.favorites.find_by_topic_id( params[:id] )
 	end
 
 	def get_like
-		current_user.likes.find_by_topic_id( params[:id])
+		current_user.likes.find_by_topic_id( params[:id] )
 	end
 
+	
 end

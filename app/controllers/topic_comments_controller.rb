@@ -10,7 +10,14 @@ class TopicCommentsController < ApplicationController
 
 		@topic.touch(:last_commented_at)
 
-		redirect_to topic_path(@topic)
+		respond_to do |format|
+     format.html {
+       redirect_to topic_path(@topic)
+     }
+     format.js
+    end
+
+		#redirect_to topic_path(@topic)
 	end
 
 	def destroy

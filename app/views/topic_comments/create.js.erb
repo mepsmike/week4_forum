@@ -1,0 +1,3 @@
+$("form").trigger("reset")
+<% html = j( render :partial => "topic_comments/comment", :locals => { :c => @comment } ) %>
+$(".comment-box").append("<%= html %>")
