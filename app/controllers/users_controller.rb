@@ -27,7 +27,7 @@ class UsersController < ApplicationController
 
   def friend_list
   	
-  	@friends = current_user.friendships
-  	@beinvited = Friendship.where( :friend_id=>current_user)
+  	@friends = current_user.friendships 
+  	@beinvited = current_user.inverse_friendships.where( :status =>"invite")
   end
 end

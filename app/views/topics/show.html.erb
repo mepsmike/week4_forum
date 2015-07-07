@@ -51,7 +51,15 @@
 		<div class="col-md-2 cb-user">
 			<div class="user-name"><%= @topic.user.short_name %></div> 
 			<div class="user-picture"></div>
-			<div class="user-interact"><%= link_to "加好友",friendship_path(:friend_id=>@topic.user_id) ,:class => "btn btn-priamry btn-sm", :method => :post %></div>
+			<div class="user-interact">
+
+			<%#if try(@friends.friend_id == @topic.user_id)%>
+			<%= link_to "加好友",friendship_path(:friend_id=>@topic.user_id) ,:class => "btn btn-priamry btn-sm", :method => :post %>
+			<%#else%>
+			  <span>邀請中…</span>
+			<%#end%>
+
+			</div>
 		</div>
 
 		<div class="col-md-10 cb-content">
@@ -69,27 +77,7 @@
 	</div>
 
  <% @comments.each do |c|%>
-	<div class="row comment-box" id="comment-box-<%=c.id%>">
-<!--		<div class="col-md-2 cb-user">
-			<div class="user-name"><%= c.user.short_name %></div> 
-			<div class="user-picture"></div>
-			<div class="user-interact">
-				
-				<%= link_to "加好友",friendship_path(:friend_id=>c.user_id) ,:class => "btn btn-priamry btn-sm", :method => :post %>
-
-			</div>
-		</div>
-
-		<div class="col-md-10 cb-content">
-			<div class="create-at">
-				發表於：<%=c.created_at.to_s(:db) %>
-				<% if current_user == c.user %>
-					<%= link_to "刪除",topic_comment_path(@topic,c),:remote=>true,:method =>:delete%>	
-				<%end%>
-			</div>
-			
-			<div class="content"><p><%= c.content %></p></div>
-		</div>-->
+	<div class="row comment-box cbox" id="comment-box-<%=c.id%>">
 		 <%= render :partial => "topic_comments/comment", :locals => { :c => c } %>
 	</div>
 <% end %>

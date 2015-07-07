@@ -18,17 +18,19 @@ class FriendshipsController < ApplicationController
   end
 
   def destroy
-    @friendship = current_user.friendships.find(params[:id])
+    @friendship = current_user.friendships.find(params[:fid]) || current_user.inverse_friendships.find(params[:fid]) 
     @friendship.destroy
     flash[:notice] = "Removed friendship."
-    redirect_to current_user
+    redirect_to root_url
   end
 
 
   def update
     
-    @friendship = current_user.friendships.find(params[:fid])
+    @friendship = current_user.inverse_friendships.find(params[:fid])
     @friendship.update(:status => :accept)
+    Friendship.create(:user_id => @friendship.friend_id,:friend_id => @friendship.user_id,:status =>"accept" )
+    redirect_to root_url
   end
 
 end

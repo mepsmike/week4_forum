@@ -4,6 +4,7 @@
 	<tr>
 		<td><%=f.user.email%></td>
 		<td><%= link_to "接受邀請", friendship_path(:fid=>f),:method => "put" %></td>
+		<td><%= link_to "拒絕邀請", friendship_path(:fid=>f),:method => "delete" %></td>
 	</tr>
 <% end %>
 
@@ -15,7 +16,15 @@
 
 	<tr>
 		<td><%=f.friend.email%></td>
-		<td><a>邀請中</a></td>
+		<td>
+			
+			<% if f.status=="invite"%>
+				<span>邀請中.....</span>
+			<%else%>
+				<%= link_to "刪除好友", friendship_path(:fid=>f),:method => "delete" %>
+			<%end%>
+
+		</td>
 	</tr>
 <% end %>
 

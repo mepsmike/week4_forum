@@ -27,7 +27,7 @@ class TopicsController < ApplicationController
 
 	def show
 		set_topic
-		
+		#get_friend
 		@favorite = get_favorite
 		@like = get_like
 		
@@ -141,5 +141,9 @@ class TopicsController < ApplicationController
 		current_user.likes.find_by_topic_id( params[:id] )
 	end
 
+	def get_friend
+
+		@friends = current_user.include(friendships)
+	end
 	
 end
