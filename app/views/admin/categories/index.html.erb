@@ -14,10 +14,34 @@
 <table class = "table">
 
 <%  @categories.each do |c| %>
-	<tr>
+	<tr data-reorder-url="<%= move_admin_category_path(c)%>">
 		<td><%=c.name%></td>
 		<td><%= link_to "編輯", admin_categories_path(:cid => c) %></td>	
 		<td><%= link_to "刪除", admin_category_path(c), :method => :delete %>	
 	<tr>
 <% end %>
 </table>
+
+<script>
+
+$("table").sortable({
+        items: "tr",
+        update: function(event, ui) {
+
+            console.log( "Move to " + ui.item.index() );
+
+            url = ui.item.data("reorder-url")
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                dataType: "json",
+                data: {
+                    position: ui.item.index()
+                }
+            })
+        }
+    });
+
+
+</script>

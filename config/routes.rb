@@ -27,7 +27,11 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :categories
+    resources :categories do
+      member do  
+        post :move
+      end
+    end
     resources :users 
   end
   # The priority is based upon order of creation: first created -> highest priority.

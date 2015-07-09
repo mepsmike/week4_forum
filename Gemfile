@@ -38,6 +38,10 @@ gem 'paperclip'
 gem 'select2-rails'
 
 gem 'gon'
+
+gem 'jquery-ui-rails'
+
+gem 'ranked-model'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

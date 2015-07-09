@@ -34,10 +34,10 @@
 
 </div>
 </br>
-<div class="fb-like" data-href="https://localhost:3000/topics/{@topic.id}" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+<div class="fb-like" data-href="https://localhost:3000/topics/<%=@topic.id%>" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
 </br>
 </br>
-<div class="container">
+<div class="container" id="main">
 
 	<div class="row topic-title">
 		<% @topic.categories.each do |x| %>
@@ -77,19 +77,22 @@
 	</div>
 
  <% @comments.each do |c|%>
-	<div class="row comment-box cbox" id="comment-box-<%=c.id%>">
 		 <%= render :partial => "topic_comments/comment", :locals => { :c => c } %>
-	</div>
+	
 <% end %>
+	
 
-	<div class="row comment-post">
-	<%= form_for @comment,:remote => true ,:url => topic_comments_path(@topic) do |c|%>
-	<div class="form-group">
-	<%= c.label :content ,"留言" %></br>
-	<%= c.text_area :content,:class=>"form-control",:rows=>8 %></br>
-	</div>
-  <%= c.submit "發表" ,:id =>"commit", :class => "btn btn-success" %>
- <% end %>
- </div>
 </div>
 
+
+<div class="container">
+<div class="row comment-post">
+	<%= form_for @comment,:remote => true ,:url => topic_comments_path(@topic) do |c|%>
+	<div class="form-group">
+		<%= c.label :content ,"留言" %></br>
+		<%= c.text_area :content,:class=>"form-control",:rows=>8 %></br>
+	</div>
+	<%= c.submit "發表" ,:id =>"commit", :class => "btn btn-success" %>
+	<% end %>
+</div>
+</div>

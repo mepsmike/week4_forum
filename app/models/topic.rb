@@ -36,4 +36,6 @@ class Topic < ActiveRecord::Base
 
     self.tag_ids = ids
   end
+
+  
 end

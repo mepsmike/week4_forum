@@ -4,7 +4,7 @@ class Admin::CategoriesController < ApplicationController
   before_action :check_admin
 
   def index  
-    @categories = Category.all
+    @categories = Category.all.rank(:row_order).page( params[:page] ).per(10)
     if params[:cid]
       @category= Category.find(params[:cid])
     else 
@@ -29,6 +29,13 @@ class Admin::CategoriesController < ApplicationController
     @category.destroy
     
     redirect_to admin_categories_path
+  end
+
+  def move
+    
+    @categories.row_order_position = params[:position]
+    @categories.save!
+    redirect_to :back
   end
 
   protected

@@ -1,10 +1,25 @@
 
+	<div class="row comment-box" id="comment-box-<%=c.id%>">
+
 	<div class="col-md-2 cb-user">
 		<div class="user-name"><%= c.user.short_name %></div> 
 		<div class="user-picture"></div>
 		<div class="user-interact">
+
+
+		<%if current_user != c.user %>
+			<% fs = current_user.friendships.find_or_initialize_by(:friend_id=>c.user.id) %>
+ 
+			<%if fs.status == "accept" %>
 			
+				<span>已是好友</span>
+
+			<% elsif fs.status == "invite"%>
+				<span>邀請中</span>
+			<% else %>
 			<%= link_to "加好友",friendship_path(:friend_id=>c.user_id) ,:class => "btn btn-priamry btn-sm", :method => :post %>
+			<% end %>
+		<% end %>
 
 		</div>
 	</div>
@@ -18,5 +33,6 @@
 		</div>
 		
 		<div class="content"><p><%= c.content %></p></div>
+	</div>
 	</div>
 
