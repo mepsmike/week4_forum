@@ -46,6 +46,7 @@
 $("#topic_tag_list").select2({
 	 //tags: <%= raw( Tag.all.map{ |x| x.name }.to_json ) %>,
 	tags: gon.tags ,
+	// tags: <%=raw @tags %>,
   tokenSeparators: [',', ' ']
 })
 </script>

@@ -19,6 +19,7 @@ class TopicsController < ApplicationController
 	def new
 
 		gon.tags = Tag.all.map{ |x| x.name } #要放在最前面？！
+		@tags = Tag.all.map{ |x| x.name }
 		@topic=Topic.new
 		
 	end
